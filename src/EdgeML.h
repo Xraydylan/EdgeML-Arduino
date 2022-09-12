@@ -1,53 +1,42 @@
 #ifndef Edge_ML_BASE_H_
 #define Edge_ML_BASE_H_
 
-#if defined(ARDUINO_NICLA)
-    #warning "Using Nicla Sense ME"
-    #include<nicla/Edge_ML_Nicla.h>
-#elif defined(TARGET_SEEED_XIAO_NRF52840_SENSE)
-    #warning "Using Seeed XIAO NRF52840 SENSE"
-    #include<xiaoblesense/Edge_ML_Seeed.h>
-#else 
-    #warning "Using Ble33Nano"
-    #include<ble33nano/Edge_ML_Nano.h>
+#include <auto_include/flags.h>
+
+#ifdef NICLA_FLAG
+    #include<boards/special_boards/nicla/Edge_ML_Nicla.h>
+#else
+	#include<generic/Generic.h>
 #endif
 
 class Edge_ML {
     public:
         Edge_ML() {
-          #if defined(ARDUINO_NICLA)
+          #ifdef NICLA_FLAG
             Edge_ML_Nicla();
-          #elif defined(TARGET_SEEED_XIAO_NRF52840_SENSE)
-            Edge_ML_Seeed();
           #else 
-            Edge_ML_Nano();
+            Edge_ML_Generic();
           #endif
         }
         bool begin() {
-          #if defined(ARDUINO_NICLA)
+          #ifdef NICLA_FLAG
             edge_ml_nicla.begin();
-          #elif defined(TARGET_SEEED_XIAO_NRF52840_SENSE)
-            edge_ml_seeed.begin();
           #else 
-            edge_ml_nano.begin();
+            edge_ml_generic.begin();
           #endif
         }
         void update() {
-          #if defined(ARDUINO_NICLA)
+          #ifdef NICLA_FLAG
             edge_ml_nicla.update();
-          #elif defined(TARGET_SEEED_XIAO_NRF52840_SENSE)
-            edge_ml_seeed.update();
           #else 
-            edge_ml_nano.update();
+            edge_ml_generic.update();
           #endif
         }
         void debug(Stream &stream) {
-          #if defined(ARDUINO_NICLA)
+          #ifdef NICLA_FLAG
             edge_ml_nicla.debug(stream);
-          #elif defined(TARGET_SEEED_XIAO_NRF52840_SENSE)
-            edge_ml_seeed.debug(stream);
           #else 
-            edge_ml_nano.debug(stream);
+            edge_ml_generic.debug(stream);
           #endif
         }
 };
