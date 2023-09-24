@@ -19,7 +19,7 @@ bool Edge_ML_Generic::begin() {
     println("Begin Init");
     // Init
     if (_sensorManager == nullptr) {
-        println("Fetch Sensor Manager");
+        println("Fetch EdgeSensor Manager");
         _sensorManager = get_manager();
 
         if (debugging) _sensorManager->debug(*_debug);
@@ -57,7 +57,7 @@ void Edge_ML_Generic::debug(Stream &stream) {
     println("Debugger Active\n");
 }
 
-void Edge_ML_Generic::configure_sensor(SensorConfigurationPacket &config) {
+void Edge_ML_Generic::configure_sensor(EdgeSensorConfigurationPacket &config) {
     sensorProvider.configureSensor(config);
 }
 
@@ -78,7 +78,7 @@ void Edge_ML_Generic::set_data_callback(void (*callback)(int id, unsigned int ti
     sensorProvider.set_data_callback(callback);
 }
 
-void Edge_ML_Generic::set_config_callback(void (*callback)(SensorConfigurationPacket *)) {
+void Edge_ML_Generic::set_config_callback(void (*callback)(EdgeSensorConfigurationPacket *)) {
     sensorProvider.set_config_callback(callback);
 }
 

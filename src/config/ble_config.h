@@ -4,9 +4,9 @@
 
 // when using custom board don't forget to change DEVICE_IDENTIFER and DEVICE_GENERATION
 
-extern const char * sensorServiceUuid;
-extern const char * sensorDataUuid;
-extern const char * sensorConfigUuid;
+extern const char * sensorEdgeServiceUuid;
+extern const char * sensorEdgeDataUuid;
+extern const char * sensorEdgeConfigUuid;
 extern const char * deviceInfoServiceUuid;
 extern const char * deviceIdentifierUuid;
 extern const char * deviceGenerationUuid;

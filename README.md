@@ -484,7 +484,9 @@ public:
 
         // Set the sensor configurations
         SensorManagerInterface::set_sensor_configs(CONFIG);
-    }
+    };
+    
+    void update() override {};
 };
 ```
 
@@ -495,6 +497,10 @@ In the `setup` method of the `CustomSensorManager` class, perform the following 
 3. Use the `set_modules` method of `SensorManagerInterface` to set the `modules` array.
 4. Use the `set_sensor_counts` method of `SensorManagerInterface` to set the total number of sensors (`SENSOR_COUNT`) and physical modules (`MODULE_COUNT_PHYSICAL`).
 5. Use the `set_sensor_configs` method of `SensorManagerInterface` to set the sensor configurations (`CONFIG`).
+
+
+Optionally an `update` method can be added. It will be called every loop with high frequency.
+
 
 If there are any special sensors they get included as follows:
 
@@ -521,7 +527,9 @@ public:
         
         // Set the sensor configurations
         SensorManagerInterface::set_sensor_configs(CONFIG);
-    }
+    };
+    
+    void update() override {};
 };
 ```
 

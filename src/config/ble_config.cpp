@@ -1,9 +1,9 @@
 #include "ble_config.h"
 
-// Sensor Data channels
-const char * sensorServiceUuid = "34c2e3bb-34aa-11eb-adc1-0242ac120002";
-const char * sensorDataUuid = "34c2e3bc-34aa-11eb-adc1-0242ac120002";
-const char * sensorConfigUuid = "34c2e3bd-34aa-11eb-adc1-0242ac120002";
+// EdgeSensor Data channels
+const char * sensorEdgeServiceUuid = "34c2e3bb-34aa-11eb-adc1-0242ac120002";
+const char * sensorEdgeDataUuid = "34c2e3bc-34aa-11eb-adc1-0242ac120002";
+const char * sensorEdgeConfigUuid = "34c2e3bd-34aa-11eb-adc1-0242ac120002";
 
 
 // Device information channels

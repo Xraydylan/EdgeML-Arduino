@@ -6,7 +6,7 @@
 #include "Debug.h"
 
 #include <config/ble_config.h>
-#include <boards/generic_boards/BLEPackets.h>
+#include "sensor/BLEPackets.h"
 
 class BLEHandler_G : public Debug {
 public:

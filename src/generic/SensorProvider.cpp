@@ -22,19 +22,22 @@ void SensorProvider::set_sensorManager(SensorManagerInterface *sensorManager) {
 
 
 bool SensorProvider::begin() {
+    _sensorManager->begin();
     println("SensorProvider Begin\n");
     return true;
 }
 
 void SensorProvider::update() {
-    Sensor * sensor;
+    _sensorManager->update();
+
+    EdgeSensor * sensor;
     for (int i=0; i<_sensor_count; i++) {
         sensor = _sensor_array[i];
         update_sensor(sensor);
     }
 }
 
-void SensorProvider::configureSensor(SensorConfigurationPacket& config) {
+void SensorProvider::configureSensor(EdgeSensorConfigurationPacket& config) {
     // Configure sensor in SensorManager
     if (debugging) {
         println("Configuration: ");
@@ -66,7 +69,7 @@ void SensorProvider::configureSensor(SensorConfigurationPacket& config) {
         return;
     }
 
-    Sensor * sensor = _sensor_array[ID];
+    EdgeSensor * sensor = _sensor_array[ID];
 
     if (config.sampleRate == 0.0) {
         sensor->state = false;
@@ -80,7 +83,7 @@ void SensorProvider::configureSensor(SensorConfigurationPacket& config) {
     sensor->delay = delay;
 }
 
-void SensorProvider::update_sensor(Sensor * sensor) {
+void SensorProvider::update_sensor(EdgeSensor * sensor) {
     if (sensor->state) {
         if (!sensor->active) {
             _sensorManager->start_sensor(sensor->ID);
@@ -98,7 +101,7 @@ void SensorProvider::update_sensor(Sensor * sensor) {
     }
 }
 
-void SensorProvider::check_sensor(Sensor *sensor) {
+void SensorProvider::check_sensor(EdgeSensor *sensor) {
     if (sensor->check_delay()) {
         send_sensor_data(sensor->ID);
     }
@@ -154,7 +157,7 @@ void SensorProvider::set_data_callback(void (*callback)(int, unsigned int, uint8
     _data_callback = callback;
 }
 
-void SensorProvider::set_config_callback(void (*callback)(SensorConfigurationPacket *)) {
+void SensorProvider::set_config_callback(void (*callback)(EdgeSensorConfigurationPacket *)) {
     _config_callback = callback;
 }
 
@@ -162,7 +165,7 @@ String SensorProvider::parse_to_string(int sensorID, const byte *data) {
     if (!check_valid_id(sensorID)) return "";
     if (_sensorManager->check_special_sensor(sensorID)) return "";
 
-    SensorConfig * config = _sensorManager->get_config(sensorID);
+    EdgeSensorConfig * config = _sensorManager->get_config(sensorID);
 
     if (!config->component_count) return "";
 

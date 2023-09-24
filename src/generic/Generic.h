@@ -5,7 +5,7 @@
 #include "SensorProvider.h"
 #include "Debug.h"
 
-#include <boards/generic_boards/SensorManagerInterface.h>
+#include "sensor/SensorManagerInterface.h"
 #include <config/board_config.h>
 
 class Edge_ML_Generic: public Debug {
@@ -17,7 +17,7 @@ class Edge_ML_Generic: public Debug {
         void update();
         void debug(Stream &stream);
 
-        void configure_sensor(SensorConfigurationPacket& config);
+        void configure_sensor(EdgeSensorConfigurationPacket& config);
 
         void set_custom(SensorManagerInterface * sensorManager);
         void set_ble_config(String name, String gen = "0.0.0");
@@ -29,7 +29,7 @@ class Edge_ML_Generic: public Debug {
         String parse_to_string(int sensorID, byte * data);
 
         void set_data_callback(void(*)(int, unsigned int, uint8_t*, int));
-        void set_config_callback(void(*)(SensorConfigurationPacket *));
+        void set_config_callback(void(*)(EdgeSensorConfigurationPacket *));
 
         void ble_manual_advertise();
     private:

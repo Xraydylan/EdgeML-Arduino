@@ -3,7 +3,7 @@
 #include "Arduino.h"
 #include "ArduinoBLE.h"
 #include "SensorProvider.h"
-#include <boards/generic_boards/SensorTypes.h>
+#include "sensor/SensorTypes.h"
 #include <config/ble_config.h>
 #include <cstdint>
 #include <utility>
@@ -16,10 +16,10 @@ BLEHandler_G::BLEHandler_G() {
     device_gen = DEVICE_GENERATION;
 }
 
-// Sensor channel
+// EdgeSensor channel
 void BLEHandler_G::receivedSensorConfig(BLEDevice central, BLECharacteristic characteristic)
 {
-    SensorConfigurationPacket data;
+    EdgeSensorConfigurationPacket data;
     characteristic.readValue(&data, sizeof(data));
     sensorProvider.configureSensor(data);
 }
@@ -62,13 +62,13 @@ bool BLEHandler_G::begin() {
     }
 
     // Generate Services
-    sensorService_G = new BLEService(sensorServiceUuid);
+    sensorService_G = new BLEService(sensorEdgeServiceUuid);
     deviceInfoService_G = new BLEService(deviceInfoServiceUuid);
     parseInfoService_G = new BLEService(parseInfoServiceUuid);
 
     // Generate Characteristics
-    sensorDataC_G = new BLECharacteristic(sensorDataUuid, (BLERead | BLENotify), 512, false);
-    sensorConfigC_G = new BLECharacteristic(sensorConfigUuid, BLEWrite, sizeof(SensorConfigurationPacket));
+    sensorDataC_G = new BLECharacteristic(sensorEdgeDataUuid, (BLERead | BLENotify), 512, false);
+    sensorConfigC_G = new BLECharacteristic(sensorEdgeConfigUuid, BLEWrite, sizeof(EdgeSensorConfigurationPacket));
 
     deviceIdentifierC_G = new BLECharacteristic(deviceIdentifierUuid, BLERead, (int)device_id.length());
     deviceGenerationC_G = new BLECharacteristic(deviceGenerationUuid, BLERead, (int)device_gen.length());
@@ -76,7 +76,7 @@ bool BLEHandler_G::begin() {
 
     deviceParseSchemeC_G = new BLECharacteristic(parseSchemeUuid, BLERead, _scheme_length);
 
-    // Sensor channel
+    // EdgeSensor channel
     BLE.setAdvertisedService(*sensorService_G);
     sensorService_G->addCharacteristic(*sensorConfigC_G);
     sensorService_G->addCharacteristic(*sensorDataC_G);
